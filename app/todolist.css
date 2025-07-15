@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    font-family:monospace;
+}
+
+body {
+    display: flex;
+    width:100vw;
+    height: 100vh;
+    background:rgb(131, 150, 212);
+    color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    border: 1px solid #f5f5f5;
+    border-radius: 4px;
+    position: relative;
+}
+
+input[type="checkbox"]:checked::after {
+content: "";
+position: absolute;
+top: 4px;
+left: 8px;
+width: 5px;
+height: 10px;
+border: solid #f5f5f5;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+
+h1 {
+    text-align: center;
+    padding-bottom: 8px;
+}
+
+label {
+    font-size: inherit;
+    padding-left: 16px;
+}
+
+ul {
+    width: 100%;
+    list-style: none;
+    background: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+li {
+    display: flex;
+    background: none;
+    align-items: center;
+    padding: 8px;
+
+}
+
+.main {
+    width: 1200px;
+    border:#f5f5f5 solid;
+    border-radius: 8px;
+    height: auto;
+    background: rgb(131, 150, 212);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px;
+}
+
+.input1 {
+    height: 44px;
+    width: 50%; 
+    font-size: inherit;
+    font-family: monospace;
+    color: rgb(131, 150, 212);
+    background: #f5f5f5;
+    border-radius: 8px;
+    border: none;
+    margin-right: 8px;
+    outline: none;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.duplicatechoicebutton {
+    border: none;
+    background: none;
+    color: #f5f5f5;
+    padding:0;
+    width: 57px;
+    cursor:pointer;
+}
+
+.duplicatechoicebutton span::before,
+.duplicatechoicebutton span::after {
+    content: '';
+}
+
+.duplicatechoicebutton:hover span::before {
+    content: '[ ';
+}
+
+.duplicatechoicebutton:hover span::after {
+    content: ' ]';
+}
+
+.button1 {
+    background-color: #f5f5f5;
+    color: rgb(131, 150, 212);
+    font-size: inherit;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    border:#f5f5f5 solid;
+    width: 42px;
+    height: 46px;
+    transition: .5s;
+}
+
+.button1:hover {
+    border:#f5f5f5 solid;
+    background-color: rgb(131, 150, 212);
+    color: #f5f5f5;
+}
+
+::placeholder {
+    color: rgb(131, 150, 212);
+    padding-left: 8px;
+    opacity: 50%;
+}
+
+.topcontainer {
+    height: 115px;
+    background: none;
+    cursor: default;
+}
+
+.top {
+    background: none;
+}
+
+.addtask {
+    display: flex;
+    background: none;
+    padding-bottom: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.gettask {
+    display: flex;
+    flex-direction: row;
+    height: 462px;
+    background: none;
+    padding: 8px 16px 8px 7px; 
+    border: #f5f5f5 solid;
+    border-radius: 8px;
+}
+
+.leftcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    background: none;
+}
+
+.tasklist {
+    height: 400px;
+    background: none;
+}
+
+.rightcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 450px;
+    background: none;
+    border: #f5f5f5 solid;
+    border-radius: 8px;
+}
+
+.task-input {
+    appearance: none;
+    outline: none;  
+    width: auto;
+    height: 20px;
+    margin-left: 16px;
+    background: none;
+    border: none;
+    border-bottom: 1px rgb(131, 150, 212) solid;
+    color: #f5f5f5;
+    transition: .5s;
+}
+
+.task-input:focus {
+    border-bottom: 1px #f5f5f5 solid;
+}
+
+.nextprevsection {
+    cursor:default;
+    background: none;
+    padding: 8px 0px 0px 8px;
+}
+
+.sortsection {
+    cursor:default;
+    background: none;
+    padding: 16px 16px 0px 18px;
+}
+
+.button2 {
+    appearance: none;
+    text-decoration: none;;
+    height: 25px;
+    margin-right: 16px;
+    background: none;
+    color: #f5f5f5;
+    border: none;
+    border-bottom: 1px rgb(131, 150, 212) solid;
+    transition: .5s;
+    cursor: pointer;
+}
+
+.button2:hover {
+    border-bottom: 1px #f5f5f5 solid;
+    margin-right: 16px;
+}
+
+.button2.active {
+    border-bottom: 1px #f5f5f5 solid;
+}
+
+.quote {
+    margin: 8px 0px 16px 18px;
+}
+
+.priority-list {
+    outline:none;
+    color: #f5f5f5;
+    background: none;
+    border: 1px #f5f5f5 solid;
+    border-radius: 8px;
+    margin-left: 8px;
+    padding-left: 8px;
+}
+
+#task-message {
+    margin: 0px 0px 0px 18px;
+}

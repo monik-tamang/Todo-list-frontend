@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>to do list</title>
+
+    <link rel="stylesheet" href="todolist.css">
+
+</head>
+
+<body>
+    <div class="main">
+
+        <div class="topcontainer">
+
+            <div class="top">
+                <h1>TO DO LIST</h1>
+            </div>
+
+            <div class="addtask">
+                <input class="input1" id="task" type="text" placeholder="Add task ..." autocomplete="off" maxlength="64">
+                <button class="button1" id="addtaskbtn" onclick="addTask()">+</button>
+            </div>
+
+            <div id="task-message"></div>
+
+        </div>
+        
+        <div class="gettask">
+
+            <div class="leftcontainer">
+                <div class="tasklist">
+                    <ul id="task-list">FETCHING DATA ...</ul>
+                </div>
+
+                <div class="nextprevsection">
+                    <button class="button1" onclick="prevPage()"> < </button>
+                    <button class="button1" onclick="nextPage()"> > </button>
+                </div> 
+                
+            </div>
+
+            <div class="rightcontainer">
+                <div>Future Updates...</div>
+            </div>
+
+        </div> 
+
+        <div class="sortsection">
+            <a href="#" class="button2" onclick="getTask('all'); return false;">All</a>
+            <a href="#" class="button2" onclick="getTask('today'); return false;">Today</a>
+            <a href="#" class="button2" onclick="getTask('completed'); return false;">Completed</a>
+            <a href="#" class="button2" onclick="getTask('remaining'); return false;">Remaining</a>
+        </div>
+
+
+    </div>
+    
+    <script src="config.js"></script>
+    <script src="todolist.js"></script>
+
+</body>
+
+</html>
