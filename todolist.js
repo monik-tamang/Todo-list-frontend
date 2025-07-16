@@ -4,7 +4,7 @@ let totalTasks = 0;
 let currentType = 'all';
 
 document.addEventListener("DOMContentLoaded", function () {
-        getTask(); // auto-fetch tasks
+        getTask(); 
 });
 
 async function loginUser() {
@@ -199,7 +199,12 @@ function handleTaskUpdateDelete(task, input, li) {
     const token = localStorage.getItem("token");
     if (input.value === "") {
     // Delete task
-    fetch(`${API_BASE_URL}/tasks/${task.id}`, { method: "DELETE" })
+        fetch(`${API_BASE_URL}/tasks/${task.id}`, {
+            method: "DELETE" ,
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
         .then(response => {
             if (response.ok) {
                 li.remove();
