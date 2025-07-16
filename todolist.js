@@ -3,11 +3,46 @@ let currentOffset = 0;
 let totalTasks = 0;
 let currentType = 'all';
 
-document.addEventListener("DOMContentLoaded",function (){
-    getTask();
+document.addEventListener("DOMContentLoaded", function () {
+        getTask(); // auto-fetch tasks
 });
 
+async function loginUser() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('pass').value;
+    const message = document.getElementById('task-message');
+
+    const loginDetails = {email, password};
+
+    try{
+        const response = await fetch(`${API_BASE_URL}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loginDetails)
+        });
+
+        if (!response.ok) {
+            throw new Error("Login failed: " + response.status);
+        }
+        
+        const data = await response.json();
+        const token = data.access_token;
+        localStorage.setItem("token", token);
+
+        message.textContent = "[ Login Successful ]";
+
+        getTask();
+
+    }catch (error) {
+        console.error(error);
+        message.textContent = " [Login failed] ";
+    }
+}
+
 function addTask(duplicate_status) {
+    const token = localStorage.getItem("token");
     const name = document.getElementById("task").value.trim();
     const messageBox = document.getElementById("task-message");
     const taskData = {name, duplicate_status};
@@ -17,9 +52,10 @@ function addTask(duplicate_status) {
         return;
     }
 
-    fetch("http://localhost:8000/tasks/", {
+    fetch(`${API_BASE_URL}/tasks`, {
         method: "POST",
         headers: {
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
         },
         body: JSON.stringify(taskData)
@@ -38,25 +74,31 @@ function addTask(duplicate_status) {
             <button class="duplicatechoicebutton" onclick="duplicateChoice(true)"><span>YES</span></button>
             <button class="duplicatechoicebutton" onclick="duplicateChoice(false)"><span>NO</span></button>
         `  
-        getTask()
-    }) 
+        getTask();
+    })
 }
 
-function getTask(type = "all", offset = 0, limit = 10) {
-    fetch(`http://localhost:8000/tasks?task_type=${type}&limit=${limit}&offset=${offset}`)
-    .then(response => {
+async function getTask(type = "all", offset = 0, limit = 10) {
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/tasks?task_type=${type}&limit=${limit}&offset=${offset}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        
+       
         if (!response.ok) throw new Error("Failed to fetch tasks");
-        return response.json();
-    })
-
-    .then(data => {
+        const data = await response.json();
         updatePaginationInfo(data);
-        renderTasks(data.tasks);
-    })
-    .catch(error => {
+        renderTasks(data.tasks); 
+       
+    }catch(error) {
         console.error("Error fetching tasks:", error);
-    });
-
+    };
 }
 
 function updatePaginationInfo(data) {
@@ -115,9 +157,13 @@ function createTaskElement(task) {
 }
 
 function updateTaskPriority(taskId, newPriority) {
-    fetch(`http://localhost:8000/tasks/${taskId}`, {
+    const token = localStorage.getItem("token");
+    fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json" 
+        },
         body: JSON.stringify({ priority: newPriority })
     }).catch(error => {
         console.error("Error updating the priority:", error);
@@ -126,10 +172,13 @@ function updateTaskPriority(taskId, newPriority) {
 
 function updateTaskCompletion(taskId, completed, checkbox, input) {
     taskCompleted(checkbox, input);
-
-    fetch(`http://localhost:8000/tasks/${taskId}`, {
+    const token = localStorage.getItem("token");
+    fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json" 
+        },
         body: JSON.stringify({ completed })
     }).catch(error => {
         console.error("Error updating completed status:", error);
@@ -147,10 +196,10 @@ function taskCompleted(checkbox, input) {
 }
 
 function handleTaskUpdateDelete(task, input, li) {
-
+    const token = localStorage.getItem("token");
     if (input.value === "") {
     // Delete task
-    fetch(`http://localhost:8000/tasks/${task.id}`, { method: "DELETE" })
+    fetch(`${API_BASE_URL}/tasks/${task.id}`, { method: "DELETE" })
         .then(response => {
             if (response.ok) {
                 li.remove();
@@ -164,9 +213,12 @@ function handleTaskUpdateDelete(task, input, li) {
 
     // Update task
     } else if (input.value !== task.name) {
-        fetch(`http://localhost:8000/tasks/${task.id}`, {
+        fetch(`${API_BASE_URL}/tasks/${task.id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json" 
+            },
             body: JSON.stringify({ name: input.value })
         }).catch(error => {
             console.error("Error updating task name:", error);
