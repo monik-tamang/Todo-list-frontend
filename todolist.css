@@ -196,7 +196,7 @@ li {
 .leftcontainer {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 100%; /* 60% if right container is added */
     background: none;
 }
 

@@ -4,7 +4,9 @@ let totalTasks = 0;
 let currentType = 'all';
 
 document.addEventListener("DOMContentLoaded", function () {
+    if (token) {
         getTask(); 
+    }
 });
 
 async function loginUser() {
