@@ -222,7 +222,7 @@ function handleTaskUpdateDelete(task, input, li) {
             method: "PUT",
             headers: { 
                 "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json" 
+                "Accept": "application/json",
             },
             body: JSON.stringify({ name: input.value })
         }).catch(error => {
