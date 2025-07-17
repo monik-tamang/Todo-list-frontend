@@ -68,14 +68,24 @@ function addTask(duplicate_status) {
     })
 
     .then((data)=>{
+        const isSmallScreen = window.matchMedia("(max-width: 800px)").matches;
         messageBox.textContent = `[ ${data.message} ]`;
         if (data.status == true)
-            messageBox.innerHTML = `
-            [ ${data.message} ] :
-            [ Add task? ]
-            <button class="duplicatechoicebutton" onclick="duplicateChoice(true)"><span>YES</span></button>
-            <button class="duplicatechoicebutton" onclick="duplicateChoice(false)"><span>NO</span></button>
-        `  
+            if (isSmallScreen) {
+                messageBox.innerHTML = `
+                    [ Duplicate ] :
+                    [ Add task? ]
+                    <button class="duplicatechoicebutton" onclick="duplicateChoice(true)"><span>YES</span></button>
+                    <button class="duplicatechoicebutton" onclick="duplicateChoice(false)"><span>NO</span></button>
+                `  
+            } else {
+                messageBox.innerHTML = `
+                    [ ${data.message} ] :
+                    [ Add task? ]
+                    <button class="duplicatechoicebutton" onclick="duplicateChoice(true)"><span>YES</span></button>
+                    <button class="duplicatechoicebutton" onclick="duplicateChoice(false)"><span>NO</span></button>
+                `
+            }  
         getTask();
     })
 }
@@ -224,7 +234,7 @@ function handleTaskUpdateDelete(task, input, li) {
             method: "PUT",
             headers: { 
                 "Authorization": `Bearer ${token}`,
-                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({ name: input.value })
         }).catch(error => {
