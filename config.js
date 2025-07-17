@@ -1,1 +1,1 @@
-const API_BASE_URL = "https://pounds-anybody-way-testimony.trycloudflare.com";
+const API_BASE_URL = "https://generator-anyone-european-roots.trycloudflare.com";
