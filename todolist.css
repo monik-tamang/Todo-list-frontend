@@ -317,7 +317,7 @@ li {
     }
 
     .input1 {
-        width: 300px;  
+        width: 250px;  
         height: 32px; 
         padding: none; 
     }
@@ -337,12 +337,19 @@ li {
         align-items: center;
         justify-content: center;
         margin-top: 16px;
+        margin-left: 0px;
     }
 
     .email-and-pass-input {
         width: 105px;
         height: 32px;
     }
+
+
+    li{
+        margin-bottom: -2px;
+    }
+
 
     #task-message {
         height: 20px;
