@@ -4,9 +4,7 @@ let totalTasks = 0;
 let currentType = 'all';
 
 document.addEventListener("DOMContentLoaded", function () {
-    if (token) {
         getTask(); 
-    }
 });
 
 async function loginUser() {
@@ -31,7 +29,7 @@ async function loginUser() {
         
         const data = await response.json();
         const token = data.access_token;
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
 
         message.textContent = "[ Login Successful ]";
 
@@ -44,7 +42,7 @@ async function loginUser() {
 }
 
 function addTask(duplicate_status) {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const name = document.getElementById("task").value.trim();
     const messageBox = document.getElementById("task-message");
     const taskData = {name, duplicate_status};
@@ -91,7 +89,8 @@ function addTask(duplicate_status) {
 }
 
 async function getTask(type = "all", offset = 0, limit = 10) {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
+    const messageBox = document.getElementById("task-message");
 
     try {
         const response = await fetch(`${API_BASE_URL}/tasks?task_type=${type}&limit=${limit}&offset=${offset}`, {
@@ -103,13 +102,16 @@ async function getTask(type = "all", offset = 0, limit = 10) {
         });
         
        
-        if (!response.ok) throw new Error("Failed to fetch tasks");
+        if (!response.ok) {
+            throw new Error("Failed to fetch tasks") 
+        };
         const data = await response.json();
         updatePaginationInfo(data);
         renderTasks(data.tasks); 
        
     }catch(error) {
         console.error("Error fetching tasks:", error);
+        messageBox.textContent = "[ Login is required ]";
     };
 }
 
@@ -169,7 +171,7 @@ function createTaskElement(task) {
 }
 
 function updateTaskPriority(taskId, newPriority) {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "PUT",
         headers: { 
@@ -208,7 +210,8 @@ function taskCompleted(checkbox, input) {
 }
 
 function handleTaskUpdateDelete(task, input, li) {
-    const token = localStorage.getItem("token");
+    const messageBox = document.getElementById("task-message");
+    const token = sessionStorage.getItem("token");
     if (input.value === "") {
     // Delete task
         fetch(`${API_BASE_URL}/tasks/${task.id}`, {
@@ -220,12 +223,14 @@ function handleTaskUpdateDelete(task, input, li) {
         .then(response => {
             if (response.ok) {
                 li.remove();
+                messageBox.textContent = "[ Delete Successful ]";
             } else {
                 console.error("Failed to delete task");
             }
         })
         .catch(error => {
             console.error("Error deleting task:", error);
+            messageBox.textContent = "[ Failed to delete task ]";
         });
 
     // Update task
@@ -237,9 +242,15 @@ function handleTaskUpdateDelete(task, input, li) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ name: input.value })
+
+        .then( resonse => {
+            
+        })
         }).catch(error => {
             console.error("Error updating task name:", error);
+            messageBox.textContent = "[ Failed to update task ]";
         });
+
     }
 }
 
