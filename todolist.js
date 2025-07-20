@@ -69,6 +69,7 @@ function addTask(duplicate_status) {
         const isSmallScreen = window.matchMedia("(max-width: 800px)").matches;
         messageBox.textContent = `[ ${data.message} ]`;
         if (data.status == true)
+
             if (isSmallScreen) {
                 messageBox.innerHTML = `
                     [ Duplicate ] :
@@ -146,7 +147,7 @@ function createTaskElement(task) {
     input.size = task.name.length;
 
     const select = document.createElement("select");
-    select.className = "priority-list";
+    select.className = "list";
     const priorities = ["High", "Medium", "Low", "None"];
 
     priorities.forEach(priority => {
@@ -157,7 +158,20 @@ function createTaskElement(task) {
     });
     select.value = task.priority;
 
+    const selectTitle = document.createElement("select");
+    selectTitle.className = "list";
+    const titles = ["Home", "Work", "Project", "Exercise", "Study", "Others"];
+
+    titles.forEach( title => {
+        const titleOption = document.createElement("option");
+        titleOption.value = title;
+        titleOption.textContent = title;
+        selectTitle.appendChild(titleOption);
+    });
+    selectTitle.value = task.title;
+   
     select.addEventListener('change', () => updateTaskPriority(task.id, select.value));
+    selectTitle.addEventListener('change', () => updateTaskTitle(task.id, selectTitle.value));
     checkbox.addEventListener('change', () => updateTaskCompletion(task.id, checkbox.checked, checkbox, input));
     input.addEventListener('blur', () => handleTaskUpdateDelete(task, input, li));
 
@@ -166,6 +180,7 @@ function createTaskElement(task) {
     li.appendChild(checkbox);
     li.appendChild(input);
     li.appendChild(select);
+    li.appendChild(selectTitle)
 
     return li;
 }
@@ -184,9 +199,23 @@ function updateTaskPriority(taskId, newPriority) {
     });
 }
 
+function updateTaskTitle(taskId, newTitle) {
+    const token = sessionStorage.getItem("token");
+    fetch(`${API_BASE_URL}/tasks/${taskId}`, {
+        method: "PUT",
+        headers: { 
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json" 
+        },
+        body: JSON.stringify({ title: newTitle})
+    }).catch(error => {
+        console.error("Error updating the title:", error);
+    });
+}
+
 function updateTaskCompletion(taskId, completed, checkbox, input) {
     taskCompleted(checkbox, input);
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "PUT",
         headers: { 
@@ -244,7 +273,7 @@ function handleTaskUpdateDelete(task, input, li) {
             body: JSON.stringify({ name: input.value })
 
         .then( resonse => {
-            
+
         })
         }).catch(error => {
             console.error("Error updating task name:", error);
@@ -261,10 +290,6 @@ function prevPage() {
 }
 
 function nextPage(){
-    console.log("limit", currentLimit)
-    console.log("offset", currentOffset)
-    console.log("sum", currentLimit + currentOffset)
-    
     if((currentOffset + currentLimit) >= totalTasks) return;
     currentOffset += currentLimit;
     return getTask(currentType, currentOffset, currentLimit)
@@ -278,6 +303,6 @@ function duplicateChoice(option) {
     else {
         document.getElementById("task-message").textContent = ""; 
     }
-    
+
     document.getElementById("task").value = '';
 }
