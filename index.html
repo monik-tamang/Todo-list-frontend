@@ -57,12 +57,22 @@
         </div> 
 
         <div class="sortsection">
-            <a href="#" class="button2" onclick="getTask('all'); return false;">All</a>
-            <a href="#" class="button2" onclick="getTask('today'); return false;">Today</a>
-            <a href="#" class="button2" onclick="getTask('completed'); return false;">Completed</a>
-            <a href="#" class="button2" onclick="getTask('remaining'); return false;">Remaining</a>
-        </div>
+            <select class="list" onchange="getTask(type = this.value)">
+                <option value="all">All</option>
+                <option value="today">Today</option>
+                <option value="completed">Completed</option>
+                <option value="remaining">Remaining</option>
+            </select>
 
+            <select class="list" onchange="getTask(this.value)">
+                <option value="home">Home</option>
+                <option value="exercise">Exercise</option>
+                <option value="study">Study</option>
+                <option value="project">Project</option>
+                <option value="work">Work</option>
+                <option value="others">Others</option>
+            </select>
+        </div>
 
     </div>
     

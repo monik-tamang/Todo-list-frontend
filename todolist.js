@@ -29,7 +29,7 @@ async function loginUser() {
         
         const data = await response.json();
         const token = data.access_token;
-        sessionStorage.setItem("token", token);
+        localStorage.setItem("token", token);
 
         message.textContent = "[ Login Successful ]";
 
@@ -42,7 +42,7 @@ async function loginUser() {
 }
 
 function addTask(duplicate_status) {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const name = document.getElementById("task").value.trim();
     const messageBox = document.getElementById("task-message");
     const taskData = {name, duplicate_status};
@@ -90,7 +90,7 @@ function addTask(duplicate_status) {
 }
 
 async function getTask(type = "all", offset = 0, limit = 10) {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const messageBox = document.getElementById("task-message");
 
     try {
@@ -186,7 +186,7 @@ function createTaskElement(task) {
 }
 
 function updateTaskPriority(taskId, newPriority) {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "PUT",
         headers: { 
@@ -200,7 +200,7 @@ function updateTaskPriority(taskId, newPriority) {
 }
 
 function updateTaskTitle(taskId, newTitle) {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "PUT",
         headers: { 
@@ -215,7 +215,7 @@ function updateTaskTitle(taskId, newTitle) {
 
 function updateTaskCompletion(taskId, completed, checkbox, input) {
     taskCompleted(checkbox, input);
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "PUT",
         headers: { 
@@ -240,7 +240,7 @@ function taskCompleted(checkbox, input) {
 
 function handleTaskUpdateDelete(task, input, li) {
     const messageBox = document.getElementById("task-message");
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (input.value === "") {
     // Delete task
         fetch(`${API_BASE_URL}/tasks/${task.id}`, {
