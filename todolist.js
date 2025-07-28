@@ -89,7 +89,7 @@ function addTask(duplicate_status) {
     })
 }
 
-async function getTask(type = "all", offset = 0, limit = 10) {
+async function getTask(type="all", offset=0, limit=10) {
     const token = localStorage.getItem("token");
     const messageBox = document.getElementById("task-message");
 
@@ -102,7 +102,6 @@ async function getTask(type = "all", offset = 0, limit = 10) {
             }
         });
         
-       
         if (!response.ok) {
             throw new Error("Failed to fetch tasks") 
         };
@@ -121,6 +120,11 @@ function updatePaginationInfo(data) {
     currentLimit = data.limit;
     currentOffset = data.offset;
     currentType = data.task_type;
+
+    console.log("total", totalTasks)
+    console.log("limit", currentLimit)
+    console.log("offset", currentOffset)
+    console.log("type", currentType)
 }
 
 function renderTasks(tasks) {
@@ -286,13 +290,13 @@ function handleTaskUpdateDelete(task, input, li) {
 function prevPage() {
     if (currentOffset == 0) return
     currentOffset -= currentLimit;
-    return getTask(currentType, currentOffset, currentLimit)
+    return getTask(task_type=currentType, offset=currentOffset, limit=currentLimit)
 }
 
 function nextPage(){
     if((currentOffset + currentLimit) >= totalTasks) return;
     currentOffset += currentLimit;
-    return getTask(currentType, currentOffset, currentLimit)
+    return getTask(task_type=currentType, offset=currentOffset, limit=currentLimit)
 }
 
 function duplicateChoice(option) {
