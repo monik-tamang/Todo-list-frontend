@@ -120,11 +120,6 @@ function updatePaginationInfo(data) {
     currentLimit = data.limit;
     currentOffset = data.offset;
     currentType = data.task_type;
-
-    console.log("total", totalTasks)
-    console.log("limit", currentLimit)
-    console.log("offset", currentOffset)
-    console.log("type", currentType)
 }
 
 function renderTasks(tasks) {
@@ -256,6 +251,7 @@ function handleTaskUpdateDelete(task, input, li) {
         .then(response => {
             if (response.ok) {
                 li.remove();
+                getTask();
                 messageBox.textContent = "[ Delete Successful ]";
             } else {
                 console.error("Failed to delete task");
@@ -275,10 +271,17 @@ function handleTaskUpdateDelete(task, input, li) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ name: input.value })
-
-        .then( resonse => {
-
         })
+
+        .then( response => {
+            if (response.ok) {
+                getTask();
+                messageBox.textContent = "[ Update Successful ]";
+            } else {
+                console.error("Failed to update task");
+                messageBox.textContent = "[ Failed to update task ]";
+            }
+        
         }).catch(error => {
             console.error("Error updating task name:", error);
             messageBox.textContent = "[ Failed to update task ]";
