@@ -422,4 +422,8 @@ li {
         font-size: 10px;
     }
 
+    .rightcontainer{
+        display: none;
+    }
+
 }
