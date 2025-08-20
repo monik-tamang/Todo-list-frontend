@@ -26,15 +26,15 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked::after {
-content: "";
-position: absolute;
-top: 4px;
-left: 8px;
-width: 5px;
-height: 10px;
-border: solid #f5f5f5;
-border-width: 0 2px 2px 0;
-transform: rotate(45deg);
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    width: 5px;
+    height: 10px;
+    border: solid #f5f5f5;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 h1 {
@@ -64,13 +64,13 @@ li {
 }
 
 .main {
-    width: 1200px;
+    width: 100%;
     border:#f5f5f5 solid;
     border-radius: 8px;
     height: auto;
     background: rgb(131, 150, 212);
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 16px;
+    margin-right: 16px;
     padding: 16px;
 }
 
@@ -187,7 +187,7 @@ li {
 .leftcontainer {
     display: flex;
     flex-direction: column;
-    width: 100%; /* 60% if right container is added */
+    width: 65%; /* 60% if right container is added */
     background: none;
 }
 
@@ -201,7 +201,7 @@ li {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    width: 35%;
     height: 450px;
     background: none;
     border: #f5f5f5 solid;
@@ -378,6 +378,7 @@ li {
     .leftcontainer {
         height: 440px;
         background: none;
+        width: 100%;
     }
 
     .tasklist{
